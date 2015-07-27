@@ -21,7 +21,7 @@ tagged 0.1.0 release.
 
 ## Getting Started
 
-> This is a temporary and hackish setup, for version 0.1.0 it will more practical
+> This is a temporary and hackish setup, for version 0.1.0 it will be more practical
 
 1. Clone repo to a dedicated linux server
 2. Install httpd server
