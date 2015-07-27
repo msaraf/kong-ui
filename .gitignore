@@ -1,0 +1,9 @@
+node_modules
+dist
+bower_components
+.tmp
+test/bower_components/
+.idea
+app/settings.js
+PRIVATE.md
+fixcommits.sh

@@ -1,0 +1,6 @@
+window.kongSettings = {
+  servers : [
+    {name:"Internal API", address:"https://api.int.example.com:8001/"},
+    {name:"Public API", address:"https://api.example.com:8001/"},
+  ]
+}
