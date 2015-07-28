@@ -11,34 +11,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   'use strict';
 
   // Grab a reference to our auto-binding template
-  // and give it some initial binding values
-  // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
-  app.settings = window.kongSettings;
-  app.routes = [];
-  app.consumers = [];
 
-  app.addRoute = function(){
-    page("/addRoute");
+  // Program state vars:
+  // Active Kong Server/Cluster
+  app.settings = window.kongSettings;
+
+  app.tbCrumbs = null;
+  app.tbActions = [];
+  app.server = null;
+
+  // Route List & Loaded API
+  app.routes = [];
+  app.api = {};
+
+  // Consumer List & Loaded Consumer
+  app.consumers = [];
+  app.consumer = {};
+
+  // Plugin List & Actively Edited plugin for loaded API
+  app.plugins = [];
+  app.plugin = {};
+
+  app.navHome = function(){
+    page("/");
   };
 
-  app.editRoute = function(e){
-    page("/routes/" + e.currentTarget.id);
+  app.addAPI = function(){
+    page("/addAPI");
+  };
+
+  app.editAPI = function(e){
+    page("/api/" + e.currentTarget.id);
   };
 
   app.addConsumer = function(){
+    app.consumer = {};
     page("/addConsumer");
   };
 
-  app.editConsumers = function(e){
-    page("/consumers/" + e.currentTarget.id);
+  app.editConsumer = function(e){
+    page("/consumer/" + e.currentTarget.id);
   };
 
   app.displayInstalledToast = function() {
     document.querySelector('#caching-complete').show();
   };
 
-  // Called for any ajaz response
   app.handleRouteResponse = function(e){
     if(e.detail.parseResponse() != null)
       app.routes = e.detail.parseResponse().data;
@@ -49,25 +68,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.consumers = e.detail.parseResponse().data;
   };
 
-  // Listen for template bound event to know when bindings
-  // have resolved and content has been stamped to the page
-  app.addEventListener('dom-change', function() {
-    console.log('Our app is ready to rock!');
-  });
 
-  // See https://github.com/Polymer/polymer/issues/1381
-  window.addEventListener('WebComponentsReady', function() {
-    // imports are loaded and elements have been registered
 
-    //TODO: Register for onchange notification on server_select
-
-    // TODO: Load info for default selected KONG instance
+  app.refreshServerData = function(){
+    // TODO: Load info for based on selected server
     app.$.ajaxRoute.url = "/admin/apis";
     app.$.ajaxRoute.generateRequest();
 
     app.$.ajaxConsumer.url = "/admin/consumers";
     app.$.ajaxConsumer.generateRequest();
+  };
 
+  app.onSelectServerChange = function(e) {
+    if(e.target.value) {
+      app.server = e.target.value;
+
+      // Wipe state data incase of partial data
+      // load failure
+      this.routes = [];
+      this.api = {};
+      this.consumers = [];
+      this.consumer = {};
+      this.plugins = [];
+      this.plugin = {};
+
+      app.refreshServerData();
+    }
+  };
+
+  // See https://github.com/Polymer/polymer/issues/1381
+  window.addEventListener('WebComponentsReady', function() {
+    // imports are loaded and elements have been registered
+
+    // Set active server to default value in server_select
+    app.server = document.querySelector("#server_select").value;
+    app.refreshServerData();
+
+    // Take action when user changes kong server
+    document.querySelector("#server_select").onchange = app.onSelectServerChange;
+  });
+
+  /* ---- Internal Housekeeping Below --- */
+
+  // Listen for template bound event to know when bindings
+  // have resolved and content has been stamped to the page
+  app.addEventListener('dom-change', function() {
+    console.log('Our app is ready to rock!');
   });
 
   // Main area's paper-scroll-header-panel custom condensing transformation of

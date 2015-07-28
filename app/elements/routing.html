@@ -12,36 +12,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script>
   window.addEventListener('WebComponentsReady', function() {
 
-    // We use Page.js for routing. This is a Micro
-    // client-side router inspired by the Express router
-    // More info: https://visionmedia.github.io/page.js/
+    /* --- Home --- */
     page('/', function () {
+      app.tbCrumbs = null;
+      app.tbActions = [
+        {id:"bAddAPI",title:"New API",icon:"code",action:app.addAPI},
+        {id:"bAddConsumer",title:"New Consumer",icon:"social:person-add",action:app.addConsumer}
+      ];
       app.route = 'home';
     });
 
-    page('/addRoute', function(){
-      app.route = 'routes';
+    /* --- addAPI --- */
+    page('/addAPI', function(){
+      app.tbCrumbs = "API / New";
+      app.tbActions = [
+        {id:"bAddConsumerCancel",title:"Cancel",icon:"close",action:app.$.editConsumer.cancel},
+        {id:"bAddConsumerSave",title:"Save",icon:"check",action:app.$.editConsumer.save}
+      ];
+      app.api = null;
+      app.route = 'api';
       app.params = {};
     });
 
-    page('/routes/:name', function (data) {
-      app.route = 'routes';
+    /* --- editAPI --- */
+    page('/api/:name', function (data) {
+      app.tbCrumbs = "API / " + data.params.name;
+      app.route = 'api';
       app.params = data.params;
     });
 
+    /* --- addConsumer --- */
     page('/addConsumer', function(){
-      app.route = 'consumers';
+      // Prep Data
+      app.consumer = null;
+
+      // Setup Toolbar
+      app.tbCrumbs = "Consumer / New";
+      app.tbActions = [
+        {id:"bAddConsumerCancel",title:"Cancel",icon:"close",action:app.$.editConsumer.cancel},
+        {id:"bAddConsumerSave",title:"Save",icon:"check",action:app.$.editConsumer.save}
+      ];
+
+      // Set Route
+      app.route = 'consumer';
       app.params = {};
     });
 
-    page('/consumers/:name', function (data) {
-      app.route = 'consumers';
-      app.params = data.params;
-    });
-
-    //TODO: Remove after getting routes & consumers working
-    page('/users/:name', function (data) {
-      app.route = 'user-info';
+    /* --- editConsumer --- */
+    page('/consumer/:name', function (data) {
+      app.tbCrumbs = "Consumer / " + data.params.name;
+      app.route = 'consumer';
       app.params = data.params;
     });
 

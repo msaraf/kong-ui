@@ -77,29 +77,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar">
-          <paper-icon-button id="paperToggle" icon="check-box-outline-blank" paper-drawer-toggle></paper-icon-button>
-          <span class="flex"></span>
-
-          <!-- Toolbar icons -->
-          <!--<paper-icon-button icon="refresh"></paper-icon-button>-->
-          <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
-          <paper-icon-button icon="code" on-tap="addRoute"></paper-icon-button>
-
-          <!-- Application name -->
-          <div class="middle middle-container center horizontal layout">
-            <div class="app-name">KONG UI</div>
-            <iron-icon icon="chevron-right"></iron-icon>
-            <select id="server_select">
-              <template is="dom-repeat" items="{{settings.servers}}">
-                <option value="{{item.address}}">{{item.name}}</option>
+          <!-- topBar -->
+            <!-- if no tbCrumbs show normal icon -->
+              <template is="dom-if" if="{{!tbCrumbs}}">
+                <paper-icon-button id="paperToggle" icon="check-box-outline-blank" paper-drawer-toggle></paper-icon-button>
               </template>
-            </select>
-          </div>
+            <!-- else, show back icon -->
+              <template is="dom-if" if="{{tbCrumbs}}">
+                <paper-icon-button id="paperToggle" icon="icons:chevron-left" on-tap="navHome" paper-drawer-toggle></paper-icon-button>
+              </template>
 
-          <!-- Application sub title -->
-          <!--<div class="bottom bottom-container center horizontal layout">-->
-            <!--<div class="bottom-title paper-font-subhead">The future of the web today</div>-->
-          <!--</div>-->
+            <span class="flex"></span>
+
+            <!-- Toolbar icons -->
+
+              <template is="dom-repeat" items="{{tbActions}}">
+                <paper-icon-button id="{{item.id}}" alt="{{item.title}}" icon="{{item.icon}}" onclick="{{item.action}}"></paper-icon-button>
+              </template>
+              <!--<paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>-->
+              <!--<paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>-->
+
+
+          <!-- middleBar -->
+          <div class="middle middle-container center horizontal layout">
+            <!-- if we are on the main screen -->
+            <template is="dom-if" if="{{!tbCrumbs}}">
+              <div class="app-name">KONG UI</div>
+              <iron-icon icon="chevron-right"></iron-icon>
+              <select id="server_select">
+                <template is="dom-repeat" items="{{settings.servers}}">
+                  <option value="{{item.address}}">{{item.name}}</option>
+                </template>
+              </select>
+            </template>
+
+            <!-- else, tbCrumbs mean we are editing a resource
+                 so show trail detail instead -->
+            <template is="dom-if" if="{{tbCrumbs}}">
+              <!--<iron-icon icon="chevron-right"></iron-icon>-->
+              <span>{{tbCrumbs}}</span>
+            </template>
+          </div>
 
         </paper-toolbar>
 
@@ -111,7 +129,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <h2>Routes</h2>
               <div id="route-list" class="card-list">
                 <template is="dom-repeat" items="{{routes}}">
-                  <paper-material elevation="1" id="{{item.name}}" on-tap="editRoute">
+                  <paper-material elevation="1" id="{{item.name}}" on-tap="editAPI">
                     <span publicdns>{{item.public_dns}}</span>
                     <span path>{{item.path}}</span>
                     <span filler style="flex-grow: 1;"></span>
@@ -123,7 +141,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <h2>Consumers</h2>
               <div id="consumer-list" class="card-list">
                 <template is="dom-repeat" items="{{consumers}}">
-                  <paper-material elevation="1" id="{{item.username}}" on-tap="editConsumers">
+                  <paper-material elevation="1" id="{{item.username}}" on-tap="editConsumer">
                     <span username>{{item.username}}</span>
                     <span filler style="flex-grow: 1;"></span>
                     <paper-icon-button icon="chevron-right"></paper-icon-button>
@@ -132,12 +150,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </div>
             </section>
 
-            <section data-route="routes">
+            <section data-route="api">
               Edit route for <span>{{params.name}}</span>
             </section>
 
-            <section data-route="consumers">
-              Edit consumer <span>{{params.name}}</span>
+            <section data-route="consumer">
+              <edit-consumer id="editConsumer"/>
             </section>
 
           </iron-pages>
