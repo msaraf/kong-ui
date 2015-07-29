@@ -1,0 +1,42 @@
+<!--
+@license
+Copyright (c) 2015 Mike Saraf. All rights reserved.
+This code may only be used under the BSD style license found in the included file LICENSE.md
+-->
+
+<dom-module id="kui-field">
+  <style>
+    :host {
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      h1.paper-font-display1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+  <template>
+    <h1 class="paper-font-display1"><span>{{greeting}}</span></h1>
+    <span class="paper-font-body2">Update text to change the greeting.</span>
+    <!-- Listens for "input" event and sets greeting to <input>.value -->
+    <input class="paper-font-body2" value="{{greeting::input}}">
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'kui-field',
+
+        properties: {
+          greeting: {
+            type: String,
+            value: 'Welcome!',
+            notify: true
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
