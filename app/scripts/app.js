@@ -18,10 +18,6 @@
   app.tbActions = [];
   app.server = null;
 
-  // Route List & Loaded API
-  app.routes = [];
-  app.api = {};
-
   // Consumer List & Loaded Consumer
   app.consumers = [];
   app.consumer = {};
@@ -36,10 +32,6 @@
 
   app.addAPI = function(){
     page("/addAPI");
-  };
-
-  app.editAPI = function(e){
-    page("/api/" + e.currentTarget.id);
   };
 
   app.addConsumer = function(){
@@ -103,6 +95,11 @@
 
     // Take action when user changes kong server
     document.querySelector("#server_select").onchange = app.onSelectServerChange;
+
+    app.$.apiList.addEventListener('selected-changed', function(e){
+      page("/api/" + e.detail.value);
+    });
+
   });
 
   /* ---- Internal Housekeeping Below --- */

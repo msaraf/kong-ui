@@ -16,7 +16,7 @@ This code may only be used under the BSD style license found in the included fil
     <ul>
       <template is="dom-repeat" items="{{items}}">
         <li class="foo">
-          <paper-material api-card>
+          <paper-material api-card id="{{item.name}}" on-tap="editAPI">
 
             <paper-icon-button icon="chevron-right"></paper-icon-button>
 
@@ -45,6 +45,7 @@ This code may only be used under the BSD style license found in the included fil
         },
 
         properties: {
+          selected:{type: String, notify: true},
           server:{type: String, observer: 'serverChanged'}
         },
 
@@ -56,33 +57,6 @@ This code may only be used under the BSD style license found in the included fil
 
         /* --- Lifecycle Methods --- */
         ready: function() {
-
-          this.items = [
-            {
-              "id": "4d924084-1adb-40a5-c042-63b19db421d1",
-              "name": "Mockbin",
-              "public_dns": "mockbin.com",
-              "path": "/",
-              "target_url": "https://mockbin.com",
-              "created_at": 1422386534
-            },
-            {
-              "id": "3f924084-1adb-40a5-c042-63b19db421a2",
-              "name": "PrivateAPI",
-              "public_dns": "internal.api.com",
-              "path":"/secret",
-              "target_url": "http://private.api.com",
-              "created_at": 1422386585
-            },
-            {
-              "id": "2f924084-1adb-40a5-c042-63b19db421a2",
-              "name": "ReallyReallyLongNameExample",
-              "public_dns": "thisisareallylong.nameforadomain.com",
-              "path":"/thispathissolong/absurd",
-              "target_url": "http://private.api.com",
-              "created_at": 1422386585
-            }
-          ];
         },
 
         /* --- Private Methods --- */
@@ -90,9 +64,15 @@ This code may only be used under the BSD style license found in the included fil
         handleAPIResponse : function(e){
           if(e.detail.parseResponse() != null)
             this.items = e.detail.parseResponse().data;
-        }
+        },
 
         /* --- Public Methods --- */
+
+        editAPI : function(e){
+          this.selected = e.currentTarget.id;
+          this.fire('on-selected', {value: this.selected});
+        }
+
       });
     })();
   </script>
