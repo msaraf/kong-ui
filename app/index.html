@@ -52,109 +52,172 @@ This code may only be used under the BSD style license found in the included fil
 </head>
 
 <body unresolved class="fullbleed layout vertical">
-  <span id="browser-sync-binding"></span>
-  <template is="dom-bind" id="app">
+<span id="browser-sync-binding"></span>
+<template is="dom-bind" id="app">
 
-    <iron-ajax
-      id="ajaxRoute"
-      handle-as="json"
-      on-response="handleRouteResponse"
-      debounce-duration="300"></iron-ajax>
+  <paper-drawer-panel id="paperDrawerPanel">
+    <!-- Drawer Scroll Header Panel -->
+    <paper-scroll-header-panel drawer fixed>
 
-    <iron-ajax
-      id="ajaxConsumer"
-      handle-as="json"
-      on-response="handleConsumerResponse"
-      debounce-duration="300"></iron-ajax>
+      <!-- Drawer Toolbar -->
+      <paper-toolbar id="drawerToolbar">
+        <span class="paper-font-title">KONG UI</span>
+      </paper-toolbar>
 
-      <!-- Main Area -->
-      <!--<paper-scroll-header-panel main condenses keep-condensed-header>-->
+      <!-- Drawer Content -->
+      <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
+        <a data-route="apis" href="#!/apis">
+          <iron-icon icon="code"></iron-icon>
+          <span>APIs</span>
+        </a>
+
+        <a data-route="consumers" href="#!/consumers">
+          <iron-icon icon="social:people"></iron-icon>
+          <span>Consumers</span>
+        </a>
+
+        <a data-route="plugins" href="#!/plugins">
+          <iron-icon icon="extension"></iron-icon>
+          <span>Plugins</span>
+        </a>
+      </paper-menu>
+    </paper-scroll-header-panel>
+
+    <!-- Main Area -->
+    <!--<paper-scroll-header-panel main condenses keep-condensed-header>-->
+
     <paper-header-panel main class="flex">
 
-        <!-- Main Toolbar -->
-        <paper-toolbar id="mainToolbar">
-          <!-- topBar -->
-            <!-- if no tbCrumbs show normal icon -->
-              <template is="dom-if" if="{{!tbCrumbs}}">
-                <paper-icon-button id="paperToggle" icon="check-box-outline-blank" paper-drawer-toggle></paper-icon-button>
-              </template>
-            <!-- else, show back icon -->
-              <template is="dom-if" if="{{tbCrumbs}}">
-                <paper-icon-button id="paperToggle" icon="icons:chevron-left" on-tap="navHome" paper-drawer-toggle></paper-icon-button>
-              </template>
+      <!-- Main Content -->
+      <div id="mainContent" class="content">
+        <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
-            <span class="flex"></span>
+          <!-- API List View -->
+          <section data-route="apis">
+            <paper-toolbar id="mainToolbar">
+              <!-- topBar (default -->
+              <paper-icon-button id="apiPaperToggle" icon="menu" style="margin-left:{{paperDrawerPanel.narrow *48}}px;" paper-drawer-toggle></paper-icon-button>
+              <span class="flex"></span>
+              <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
+              <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
 
-            <!-- Toolbar icons -->
-
-              <template is="dom-repeat" items="{{tbActions}}">
-                <paper-icon-button id="{{item.id}}" alt="{{item.title}}" icon="{{item.icon}}" onclick="{{item.action}}"></paper-icon-button>
-              </template>
-              <!--<paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>-->
-              <!--<paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>-->
-
-
-          <!-- middleBar -->
-          <div class="middle middle-container center horizontal layout">
-            <!-- if we are on the main screen -->
-            <template is="dom-if" if="{{!tbCrumbs}}">
-              <div class="app-name">KONG UI</div>
-              <iron-icon icon="chevron-right"></iron-icon>
-              <select id="server_select">
-                <template is="dom-repeat" items="{{settings.servers}}">
-                  <option value="{{item.address}}">{{item.name}}</option>
-                </template>
-              </select>
-            </template>
-
-            <!-- else, tbCrumbs mean we are editing a resource
-                 so show trail detail instead -->
-            <template is="dom-if" if="{{tbCrumbs}}">
-              <!--<iron-icon icon="chevron-right"></iron-icon>-->
-              <span>{{tbCrumbs}}</span>
-            </template>
-          </div>
-
-        </paper-toolbar>
-
-        <!-- Main Content -->
-        <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
-
-            <section data-route="home">
-              <h2>Routes</h2>
-              <kui-api-list id="apiList" server="[[server]]"></kui-api-list>
-
-              <h2>Consumers</h2>
-              <div id="consumer-list" class="card-list">
-                <template is="dom-repeat" items="{{consumers}}">
-                  <paper-material elevation="1" id="{{item.username}}" on-tap="editConsumer">
-                    <span username>{{item.username}}</span>
-                    <span filler style="flex-grow: 1;"></span>
-                    <paper-icon-button icon="chevron-right"></paper-icon-button>
-                  </paper-material>
-                </template>
+              <!-- middleBar -->
+              <div class="middle middle-container center horizontal layout">
+                <div class="app-name">localhost</div>
               </div>
-            </section>
+            </paper-toolbar>
 
-            <section data-route="api">
-              Edit route for <span>{{params.name}}</span>
-            </section>
+            <iron-ajax id="ajaxAPI" url="http://localhost/admin/apis" last-response="{{apis}}" auto></iron-ajax>
 
-            <section data-route="consumer">
-              <edit-consumer id="editConsumer"/>
-            </section>
+            <div class="list-view">
+              <div class="list-item-header">
+                <span>APIs</span>
+              </div>
 
-          </iron-pages>
-        </div>
+              <iron-list items="[[apis.data]]" as="item">
+                <template>
+                  <div class="list-item">
+                      <div>Name: <span>{{item.name}}</span></div>
+                      <div>Endpoint: <span>{{item.public_dns}}</span><span>{{item.path}}</span></div>
+                  </div>
+                </template>
+              </iron-list>
+            </div>
+          </section>
+
+          <!-- API New/Edit -->
+          <section data-route="api">
+            Edit route for <span>{{params.name}}</span>
+          </section>
+
+          <!-- Consumer List View -->
+          <section data-route="consumers">
+            <paper-toolbar id="mainToolbar">
+              <!-- topBar (default -->
+              <paper-icon-button id="consumerPaperToggle" icon="menu" style="margin-left:{{paperDrawerPanel.narrow *48}}px;" paper-drawer-toggle></paper-icon-button>
+              <span class="flex"></span>
+              <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
+              <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
+
+              <!-- middleBar -->
+              <div class="middle middle-container center horizontal layout">
+                <div class="app-name">localhost</div>
+              </div>
+            </paper-toolbar>
+
+            <iron-ajax id="ajaxConsumers" url="http://localhost/admin/consumers" last-response="{{consumers}}" auto></iron-ajax>
+
+            <div class="list-view">
+              <div class="list-item-header">
+                <span>Consumers</span>
+              </div>
+
+              <iron-list items="[[consumers.data]]" as="item">
+                <template>
+                  <div class="list-item">
+                    <div>Name: <span>{{item.username}}</span></div>
+                    <!--<div>Endpoint: <span>{{item.public_dns}}</span><span>{{item.path}}</span></div>-->
+                  </div>
+                </template>
+              </iron-list>
+            </div>
+          </section>
+
+          <!-- Consumer New/Edit -->
+          <section data-route="consumer">
+            <edit-consumer id="editConsumer"/>
+          </section>
+
+          <!-- Plugin List View -->
+          <section data-route="plugins">
+            <paper-toolbar id="mainToolbar">
+              <!-- topBar (default -->
+              <paper-icon-button id="pluginPaperToggle" icon="menu" style="margin-left:{{paperDrawerPanel.narrow *48}}px;" paper-drawer-toggle></paper-icon-button>
+              <span class="flex"></span>
+              <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
+              <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
+
+              <!-- middleBar -->
+              <div class="middle middle-container center horizontal layout">
+                <div class="app-name">localhost</div>
+              </div>
+            </paper-toolbar>
+
+            <iron-ajax id="ajaxPlugins" url="http://localhost/admin/plugins" last-response="{{plugins}}" auto></iron-ajax>
+
+            <div class="list-view">
+              <div class="list-item-header">
+                <span>Plugins</span>
+              </div>
+
+              <iron-list items="[[plugins.enabled_plugins]]" as="item">
+                <template>
+                  <div class="list-item">
+                    <div><span>{{item}}</span></div>
+                    <!--<div>Endpoint: <span>{{item.public_dns}}</span><span>{{item.path}}</span></div>-->
+                  </div>
+                </template>
+              </iron-list>
+            </div>
+          </section>
+
+          <!-- API Plugin Config -->
+          <section data-route="plugin">
+            <h2>API Plugin Config</h2>
+          </section>
+
+        </iron-pages>
+      </div>
     </paper-header-panel>
 
-  </template>
+  </paper-drawer-panel>
 
-  <!-- build:js scripts/app.js -->
-  <script src="settings.js"></script>
-  <script src="scripts/app.js"></script>
-  <!-- endbuild-->
+</template>
+
+<!-- build:js scripts/app.js -->
+<script src="settings.js"></script>
+<script src="scripts/app.js"></script>
+<!-- endbuild-->
 </body>
 
 </html>

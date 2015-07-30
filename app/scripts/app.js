@@ -13,35 +13,25 @@
   // Program state vars:
   // Active Kong Server/Cluster
   app.settings = window.kongSettings;
+  app.kongServer = app.settings.servers[0];
 
-  app.tbCrumbs = null;
-  app.tbActions = [];
-  app.server = null;
+  // List View Data
+  app.apis;
+  app.consumers;
+  app.plugins;
 
-  // Consumer List & Loaded Consumer
-  app.consumers = [];
-  app.consumer = {};
 
-  // Plugin List & Actively Edited plugin for loaded API
-  app.plugins = [];
-  app.plugin = {};
+  // See https://github.com/Polymer/polymer/issues/1381
+  window.addEventListener('WebComponentsReady', function() {
+    // imports are loaded and elements have been registered
 
-  app.navHome = function(){
-    page("/");
-  };
+    app.$.apiList.addEventListener('selected-changed', function(e){
+      page("/api/" + e.detail.value);
+    });
 
-  app.addAPI = function(){
-    page("/addAPI");
-  };
+  });
 
-  app.addConsumer = function(){
-    app.consumer = {};
-    page("/addConsumer");
-  };
-
-  app.editConsumer = function(e){
-    page("/consumer/" + e.currentTarget.id);
-  };
+  /* ---- Internals Below --- */
 
   app.displayInstalledToast = function() {
     document.querySelector('#caching-complete').show();
@@ -56,53 +46,6 @@
     if(e.detail.parseResponse() != null)
       app.consumers = e.detail.parseResponse().data;
   };
-
-
-
-  app.refreshServerData = function(){
-    // TODO: Load info for based on selected server
-    app.$.ajaxRoute.url = "/admin/apis";
-    app.$.ajaxRoute.generateRequest();
-
-    app.$.ajaxConsumer.url = "/admin/consumers";
-    app.$.ajaxConsumer.generateRequest();
-  };
-
-  app.onSelectServerChange = function(e) {
-    if(e.target.value) {
-      app.server = e.target.value;
-
-      // Wipe state data incase of partial data
-      // load failure
-      this.routes = [];
-      this.api = {};
-      this.consumers = [];
-      this.consumer = {};
-      this.plugins = [];
-      this.plugin = {};
-
-      app.refreshServerData();
-    }
-  };
-
-  // See https://github.com/Polymer/polymer/issues/1381
-  window.addEventListener('WebComponentsReady', function() {
-    // imports are loaded and elements have been registered
-
-    // Set active server to default value in server_select
-    app.server = document.querySelector("#server_select").value;
-    app.refreshServerData();
-
-    // Take action when user changes kong server
-    document.querySelector("#server_select").onchange = app.onSelectServerChange;
-
-    app.$.apiList.addEventListener('selected-changed', function(e){
-      page("/api/" + e.detail.value);
-    });
-
-  });
-
-  /* ---- Internal Housekeeping Below --- */
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page

@@ -1,0 +1,65 @@
+<!--
+@license
+Copyright (c) 2015 Mike Saraf. All rights reserved.
+This code may only be used under the BSD style license found in the included file LICENSE.md
+-->
+
+<dom-module id="kui-list-view">
+  <link rel="stylesheet" href="kui-list-view.css">
+  <template>
+    <iron-ajax
+      id="ajaxAPI"
+      handle-as="json"
+      on-response="_handleResponse"
+      debounce-duration="300"></iron-ajax>
+
+    <ul>
+      <template is="dom-repeat" items="{{items}}">
+        <li class="foo">
+          <span>{{item.name}}</span>
+        </li>
+      </template>
+    </ul>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'kui-list-view',
+
+        listeners: {
+          'tap': 'selectAction'
+        },
+
+        properties: {
+          endpoint:{type: String, observer: '_endpointChanged'},
+          items:{type: Array, notify: true},
+          selected:{type: String, notify: true}
+        },
+
+        /* --- Private Methods --- */
+        _endpointChanged: function(e) {
+          this.$.ajaxAPI.url = this.endpoint;
+          this.$.ajaxAPI.generateRequest();
+        },
+
+        _handleResponse : function(e){
+          if(e.detail.parseResponse() != null)
+            this.items = e.detail.parseResponse().data;
+        },
+
+        /* --- Public Methods --- */
+
+        selectAction : function(e){
+          this.selected = e.currentTarget.id;
+          this.fire('on-selected', {value: this.selected});
+        },
+
+        /* --- Lifecycle Methods --- */
+        ready: function() {
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

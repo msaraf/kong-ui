@@ -8,17 +8,16 @@ This code may only be used under the BSD style license found in the included fil
 <script>
   window.addEventListener('WebComponentsReady', function() {
 
-    /* --- Home --- */
-    page('/', function () {
-      app.tbCrumbs = null;
-      app.tbActions = [
-        {id:"bAddAPI",title:"New API",icon:"code",action:app.addAPI},
-        {id:"bAddConsumer",title:"New Consumer",icon:"social:person-add",action:app.addConsumer}
-      ];
-      app.route = 'home';
+    page('/','/apis');
+
+//    page('/', function () {
+//      app.route = 'apis';
+//    });
+
+    page('/apis', function () {
+      app.route = 'apis';
     });
 
-    /* --- addAPI --- */
     page('/addAPI', function(){
       app.tbCrumbs = "API / New";
       app.tbActions = [
@@ -30,14 +29,12 @@ This code may only be used under the BSD style license found in the included fil
       app.params = {};
     });
 
-    /* --- editAPI --- */
     page('/api/:name', function (data) {
       app.tbCrumbs = "API / " + data.params.name;
       app.route = 'api';
       app.params = data.params;
     });
 
-    /* --- addConsumer --- */
     page('/addConsumer', function(){
       // Prep Data
       app.consumer = null;

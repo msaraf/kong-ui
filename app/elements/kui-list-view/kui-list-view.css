@@ -1,0 +1,31 @@
+/* This Tag */
+:host {
+  display: block;
+}
+
+/* List */
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+
+}
+
+/* Item */
+
+
+/* Breakpoints */
+
+/* Small */
+@media (max-width: 600px) {
+
+}
+
+/* Tablet+ */
+@media (min-width: 601px) {
+
+
+
+}

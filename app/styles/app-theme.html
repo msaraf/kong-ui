@@ -32,7 +32,7 @@ This code may only be used under the BSD style license found in the included fil
     /* Components */
 
     /* paper-drawer-panel */
-    --drawer-menu-color: #ffffff;
+    --drawer-menu-color: #042943;
     --drawer-border-color: 1px solid #ccc;
     --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
 
@@ -44,7 +44,7 @@ This code may only be used under the BSD style license found in the included fil
   /* General styles */
 
   #drawerToolbar {
-    color: var(--secondary-text-color);
+    color: var(--text-primary-color);
     background-color: var(--drawer-menu-color);
     border-bottom: var(--drawer-toolbar-border-color);
   }
@@ -103,7 +103,7 @@ This code may only be used under the BSD style license found in the included fil
 
   #mainToolbar .middle-container  {
     height: 100%;
-    margin-left: 48px;
+    margin-left: 0;
   }
 
   #mainToolbar:not(.tall) .middle {
@@ -112,7 +112,7 @@ This code may only be used under the BSD style license found in the included fil
   }
 
   #mainToolbar .bottom {
-    margin-left: 48px;
+    /*margin-left: 48px;*/
     /* Required for main area's paper-scroll-header-panel custom condensing transformation */
     -webkit-transform-origin: left center;
     transform-origin: left center;
@@ -144,6 +144,10 @@ This code may only be used under the BSD style license found in the included fil
       font-weight: 400;
     }
 
+    #mainToolbar .middle-container  {
+      margin-left: 48px;
+    }
+
     #drawer .paper-toolbar {
       margin-left: 16px;
     }
@@ -169,7 +173,7 @@ This code may only be used under the BSD style license found in the included fil
     }
 
     #drawer.paper-drawer-panel > [drawer] {
-      border-right: 1px solid rgba(0, 0, 0, 0.14);
+      border-right: 0px solid rgba(0, 0, 0, 0.14);
     }
 
     iron-pages {
