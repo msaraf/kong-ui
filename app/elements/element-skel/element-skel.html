@@ -4,7 +4,7 @@ Copyright (c) 2015 Mike Saraf. All rights reserved.
 This code may only be used under the BSD style license found in the included file LICENSE.md
 -->
 
-<dom-module id="kui-field">
+<dom-module id="element-skel">
   <style>
     :host {
       display: block;
@@ -17,24 +17,17 @@ This code may only be used under the BSD style license found in the included fil
     }
   </style>
   <template>
-    <h1 class="paper-font-display1"><span>{{greeting}}</span></h1>
-    <span class="paper-font-body2">Update text to change the greeting.</span>
-    <!-- Listens for "input" event and sets greeting to <input>.value -->
-    <input class="paper-font-body2" value="{{greeting::input}}">
+    <!-- Markup here -->
   </template>
 
   <script>
     (function() {
       Polymer({
-        is: 'kui-field',
+        is: 'element-skel',
 
         properties: {
-          greeting: {
-            type: String,
-            value: 'Welcome!',
-            notify: true
-          }
         }
+
       });
     })();
   </script>
