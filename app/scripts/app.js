@@ -10,41 +10,22 @@
   // Grab a reference to our auto-binding template
   var app = document.querySelector('#app');
 
-  // Program state vars:
-  // Active Kong Server/Cluster
-  app.settings = window.kongSettings;
-  app.kongServer = app.settings.servers[0];
-
   // List View Data
   app.apis;
   app.consumers;
   app.plugins;
 
-
-  // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
     // imports are loaded and elements have been registered
-
-    app.$.apiList.addEventListener('selected-changed', function(e){
-      page("/api/" + e.detail.value);
-    });
-
+    app.$.ajaxAPI.url = app.settings.servers[0].address + "/apis";
+    app.$.ajaxConsumers.url = app.settings.servers[0].address + "/consumers";
+    app.$.ajaxPlugins.url = app.settings.servers[0].address + "/plugins";
   });
 
   /* ---- Internals Below --- */
 
   app.displayInstalledToast = function() {
     document.querySelector('#caching-complete').show();
-  };
-
-  app.handleRouteResponse = function(e){
-    if(e.detail.parseResponse() != null)
-      app.routes = e.detail.parseResponse().data;
-  };
-
-  app.handleConsumerResponse = function(e){
-    if(e.detail.parseResponse() != null)
-      app.consumers = e.detail.parseResponse().data;
   };
 
   // Listen for template bound event to know when bindings

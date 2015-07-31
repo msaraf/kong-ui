@@ -12,7 +12,7 @@ tagged 0.1.0 release.
 * Ship as a container
 * Tests would be cool
 * Support all the built-in plugins
-* Implement a plugin system to support additional UI for other KONG plugins. (Wait, what...?)
+* Implement a better plugin system
 * Clean up UI
 
 ## Prerequisites
@@ -21,7 +21,9 @@ tagged 0.1.0 release.
 
 ## Getting Started
 
-> This is a temporary and hackish setup, for version 0.1.0 it will be more practical
+> These are temporary options, for version 0.1.0 it will be more practical
+
+### Self Proxy 
 
 1. Clone repo to a dedicated linux server
 2. Install httpd server
@@ -30,6 +32,18 @@ tagged 0.1.0 release.
 5. Configure /admin to proxy_pass to your kong server
 6. Copy [repo home]/app/settings.js.example to settings.js and edit server connection
 7. in [repo home] run ```bower install```
+8. Go to app in browser
+
+### Proxy Kong Admin through Kong (So Meta)
+
+1. Clone repo to a dedicated linux server
+2. Install httpd server
+3. Setup / to go to [repo home]/app
+4. In repo directory run npm install
+5. In repo directory run bower install
+6. Copy [repo home]/app/settings.js.example to settings.js and edit server connection
+7. Using Admin API, add Admin API as an API
+```Example: curl -X POST  --url http://localhost:8001/apis/  -d 'name=kong_managment'  -d 'target_url=http://localhost:8001/'  -d 'public_dns=localhost' -d 'path=/admin' -d 'strip_path=true'```
 8. Go to app in browser
 
 ## Contributing

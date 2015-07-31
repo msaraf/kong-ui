@@ -94,20 +94,11 @@ This code may only be used under the BSD style license found in the included fil
 
           <!-- API List View -->
           <section data-route="apis">
-            <paper-toolbar id="mainToolbar">
-              <!-- topBar (default -->
-              <paper-icon-button id="apiPaperToggle" icon="menu" style="margin-left:{{paperDrawerPanel.narrow *48}}px;" paper-drawer-toggle></paper-icon-button>
-              <span class="flex"></span>
-              <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
-              <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
+            <kui-toolbar>
 
-              <!-- middleBar -->
-              <div class="middle middle-container center horizontal layout">
-                <div class="app-name">localhost</div>
-              </div>
-            </paper-toolbar>
+            </kui-toolbar>
 
-            <iron-ajax id="ajaxAPI" url="http://localhost/admin/apis" last-response="{{apis}}" auto></iron-ajax>
+            <iron-ajax id="ajaxAPI" last-response="{{apis}}" auto></iron-ajax>
 
             <div class="list-view">
               <div class="list-item-header">
@@ -145,7 +136,7 @@ This code may only be used under the BSD style license found in the included fil
               </div>
             </paper-toolbar>
 
-            <iron-ajax id="ajaxConsumers" url="http://localhost/admin/consumers" last-response="{{consumers}}" auto></iron-ajax>
+            <iron-ajax id="ajaxConsumers" last-response="{{consumers}}" auto></iron-ajax>
 
             <div class="list-view">
               <div class="list-item-header">
@@ -183,7 +174,7 @@ This code may only be used under the BSD style license found in the included fil
               </div>
             </paper-toolbar>
 
-            <iron-ajax id="ajaxPlugins" url="http://localhost/admin/plugins" last-response="{{plugins}}" auto></iron-ajax>
+            <iron-ajax id="ajaxPlugins" last-response="{{plugins}}" auto></iron-ajax>
 
             <div class="list-view">
               <div class="list-item-header">

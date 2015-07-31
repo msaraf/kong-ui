@@ -7,3 +7,4 @@ test/bower_components/
 app/settings.js
 PRIVATE.md
 fixcommits.sh
+app/elements/settings.html
