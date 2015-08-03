@@ -95,7 +95,11 @@ This code may only be used under the BSD style license found in the included fil
           <!-- API List View -->
           <section data-route="apis">
             <kui-toolbar>
-
+              <div crumbtrail><span>{{settings.servers.0.name}}</span></div>
+              <div icontray>
+                <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
+                <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
+              </div>
             </kui-toolbar>
 
             <iron-ajax id="ajaxAPI" last-response="{{apis}}" auto></iron-ajax>
@@ -117,24 +121,20 @@ This code may only be used under the BSD style license found in the included fil
           </section>
 
           <!-- API New/Edit -->
-          <section data-route="api">
-            Edit route for <span>{{params.name}}</span>
+          <section data-route="api-edit">
+            <kui-api-edit id="kuiEditAPI"></kui-api-edit>
           </section>
 
           <!-- Consumer List View -->
           <section data-route="consumers">
-            <paper-toolbar id="mainToolbar">
-              <!-- topBar (default -->
-              <paper-icon-button id="consumerPaperToggle" icon="menu" style="margin-left:{{paperDrawerPanel.narrow *48}}px;" paper-drawer-toggle></paper-icon-button>
-              <span class="flex"></span>
-              <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
-              <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
-
-              <!-- middleBar -->
-              <div class="middle middle-container center horizontal layout">
-                <div class="app-name">localhost</div>
+            <kui-toolbar>
+              <div crumbtrail><span>{{settings.servers.0.name}}</span></div>
+              <div icontray>
+                <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
+                <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
               </div>
-            </paper-toolbar>
+            </kui-toolbar>
+
 
             <iron-ajax id="ajaxConsumers" last-response="{{consumers}}" auto></iron-ajax>
 
@@ -161,18 +161,13 @@ This code may only be used under the BSD style license found in the included fil
 
           <!-- Plugin List View -->
           <section data-route="plugins">
-            <paper-toolbar id="mainToolbar">
-              <!-- topBar (default -->
-              <paper-icon-button id="pluginPaperToggle" icon="menu" style="margin-left:{{paperDrawerPanel.narrow *48}}px;" paper-drawer-toggle></paper-icon-button>
-              <span class="flex"></span>
-              <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
-              <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
-
-              <!-- middleBar -->
-              <div class="middle middle-container center horizontal layout">
-                <div class="app-name">localhost</div>
+            <kui-toolbar>
+              <div crumbtrail><span>{{settings.servers.0.name}}</span></div>
+              <div icontray>
+                <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
+                <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
               </div>
-            </paper-toolbar>
+            </kui-toolbar>
 
             <iron-ajax id="ajaxPlugins" last-response="{{plugins}}" auto></iron-ajax>
 

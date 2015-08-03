@@ -15,6 +15,9 @@
   app.consumers;
   app.plugins;
 
+  app.addAPI = function(e) { page('/apis/new'); };
+  app.addConsumer = function(e) { page('/addConsumer'); };
+
   window.addEventListener('WebComponentsReady', function() {
     // imports are loaded and elements have been registered
     app.$.ajaxAPI.url = app.settings.servers[0].address + "/apis";

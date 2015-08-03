@@ -47,12 +47,13 @@ This code may only be used under the BSD style license found in the included fil
       <!-- topBar (default -->
       <paper-icon-button id="apiPaperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
       <span class="flex"></span>
-      <paper-icon-button icon="social:person-add" on-tap="addConsumer"></paper-icon-button>
-      <paper-icon-button icon="code" on-tap="addAPI"></paper-icon-button>
-
+      <content select="[icontray]"></content>
       <!-- middleBar -->
       <div class="middle middle-container center horizontal layout">
-        <div class="app-name"><span>{{settings.servers.0.name}}</span></div>
+        <div class="app-name">
+          <content select="[crumbtrail]"></content>
+          <!--<span>{{settings.servers.0.name}}</span>-->
+        </div>
       </div>
     </paper-toolbar>
   </template>
@@ -63,7 +64,6 @@ This code may only be used under the BSD style license found in the included fil
         is: 'kui-toolbar',
 
         properties: {
-
         },
 
         ready: function() {

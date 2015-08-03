@@ -18,20 +18,17 @@ This code may only be used under the BSD style license found in the included fil
       app.route = 'apis';
     });
 
-    page('/addAPI', function(){
-      app.tbCrumbs = "API / New";
-      app.tbActions = [
-        {id:"bAddConsumerCancel",title:"Cancel",icon:"close",action:app.$.editConsumer.cancel},
-        {id:"bAddConsumerSave",title:"Save",icon:"check",action:app.$.editConsumer.save}
-      ];
+    page('/apis/new', function(){
       app.api = null;
-      app.route = 'api';
+      app.$.kuiEditAPI.create(app);
+      app.route = 'api-edit';
       app.params = {};
     });
 
-    page('/api/:name', function (data) {
-      app.tbCrumbs = "API / " + data.params.name;
-      app.route = 'api';
+    page('/apis/:name', function (data) {
+      app.api = data.params;
+      app.$.kuiEditAPI.edit(app, data.params.name);
+      app.route = 'api-edit';
       app.params = data.params;
     });
 
