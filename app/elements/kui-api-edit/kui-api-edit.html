@@ -5,10 +5,11 @@ This code may only be used under the BSD style license found in the included fil
 -->
 
 <dom-module id="kui-api-edit">
-  <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
-  <link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
-  <link rel="import" href="../../../bower_components/paper-material/paper-material.html">
-  <link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+  <!--<link rel="import" href="../../../bower_components/paper-input/paper-input.html">-->
+  <!--<link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">-->
+  <!--<link rel="import" href="../../../bower_components/paper-material/paper-material.html">-->
+  <!--<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">-->
+  <!--<link rel="import" href="../../../bower_components/iron-input/iron-input.html">-->
 
   <style>
     :host {
@@ -64,16 +65,19 @@ This code may only be used under the BSD style license found in the included fil
     <kui-toolbar>
       <div crumbtrail><span>{{crumbTrail}}</span></div>
       <div icontray>
+        <paper-icon-button icon="delete" on-tap="_delete" hidden$="{{newMode}}"></paper-icon-button>
         <paper-icon-button icon="close" on-tap="_cancel"></paper-icon-button>
         <paper-icon-button icon="check" on-tap="_save"></paper-icon-button>
       </div>
     </kui-toolbar>
 
-    <iron-ajax id="ajax" on-response="_handler" debounce-duration="300"></iron-ajax>
+    <iron-ajax id="ajax" debounce-duration="300"></iron-ajax>
 
     <!--<div id="form">-->
     <paper-material id="form">
-      <paper-input id="uuid" label="id" disabled hidden$="{{newMode}}"></paper-input>
+      <!--<label>id <span>{{foo}}</span></label>-->
+
+      <paper-input id="uuid" label="id" value="{{api.value.name}}" disabled hidden$="{{newMode}}"></paper-input>
       <paper-input id="name" label="name"></paper-input>
       <paper-input id="public_dns" label="public_dns"></paper-input>
       <paper-input id="path" label="path"></paper-input>
@@ -82,7 +86,7 @@ This code may only be used under the BSD style license found in the included fil
       <paper-input id="created_at" label="created_at" disabled hidden$="{{newMode}}"></paper-input>
     </paper-material>
 
-
+    <paper-toast id="toast" duration="3000" style="z-index: 1000"></paper-toast>
   </template>
 
   <script>
@@ -91,19 +95,23 @@ This code may only be used under the BSD style license found in the included fil
         is: 'kui-api-edit',
 
         properties: {
+          api: {
+            type: Object
+          }
         },
 
         context: Object,
         apiName: String,
         crumbTrail: String,
         newMode: Boolean,
-        api: Object,
+
+
 
         /* --- Private --- */
 
         _reset: function() {
           // Clear Form
-          this.$.uuid.value = "";
+          //this.$.uuid.value = "";
           this.$.name.value = "";
           this.$.public_dns.value = "";
           this.$.path.value = "";
@@ -138,7 +146,7 @@ This code may only be used under the BSD style license found in the included fil
             this.$.ajax.url= this.context.settings.servers[0].address + "/apis"
             this.$.ajax.body = JSON.stringify(api);
             //this.$.ajax.body = this._transformRequest(api);
-            this.$.ajax.contentType = "application/json; charset=utf-8";
+            this.$.ajax.contentType = "application/json";
             //this.$.ajax.contentType = "x-www-form-urlencoded";
             this.$.ajax.method = "POST";
           } else {
@@ -148,16 +156,19 @@ This code may only be used under the BSD style license found in the included fil
           this.$.ajax.generateRequest();
         },
 
-        _handler: function(request) {
-          console.log("API Response Recieved")
-          /*
-          if(success)
-            _clear
-            toast success
-            page(new api)
-          else (fail)
-            toast error
-           */
+        _delete: function() {
+          this._toastError("Delete not implemented.");
+        },
+
+        _handleResponse: function(response) {
+          //console.log(response.detail.response.name);
+          this.parentNode._toastSuccess("Created: " + response.detail.response.name);
+          this.parentNode._reset();
+          page('/apis/' + response.detail.response.name);
+        },
+
+        _handleError: function(response) {
+          this.parentNode._toastError(response.detail.error.message);
         },
 
         _transformRequest: function(obj) {
@@ -167,8 +178,31 @@ This code may only be used under the BSD style license found in the included fil
           return str.join("&");
         },
 
+        _toastInfo: function(msg) {
+          this.$.toast.text = msg;
+          this.$.toast.duration = 3000;
+          this.$.toast.style.backgroundColor = "gray";
+          this.$.toast.show();
+        },
+
+        _toastError: function(msg) {
+          this.$.toast.text = msg;
+          this.$.toast.duration = 6000;
+          this.$.toast.style.backgroundColor = "red";
+          this.$.toast.show();
+        },
+
+        _toastSuccess: function(msg) {
+          this.$.toast.text = msg;
+          this.$.toast.duration = 3000;
+          this.$.toast.style.backgroundColor = "green";
+          this.$.toast.show();
+        },
+
         /* --- Public --- */
         create: function(c) {
+          this._reset();
+
           if(c == null)
             console.error("kui-api-edit.create: Cannot pass null value for context.");
 
@@ -179,6 +213,8 @@ This code may only be used under the BSD style license found in the included fil
         },
 
         edit: function(c, apiName) {
+          this._reset();
+
           if(c == null)
             console.error("kui-api-edit.edit: Cannot pass null value for context.");
           if(apiName == null)
@@ -188,10 +224,14 @@ This code may only be used under the BSD style license found in the included fil
           this.apiName = apiName;
           this.crumbTrail = apiName;
           this.newMode = false;
+
+
         },
 
         /* --- Life Cycle --- */
         ready: function() {
+          this.$.ajax.addEventListener('response', this._handleResponse);
+          this.$.ajax.addEventListener('error', this._handleError);
         }
       });
     })();

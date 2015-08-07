@@ -64,7 +64,7 @@
 
   // Close drawer after menu item is selected if drawerPanel is narrow
   app.onMenuSelect = function() {
-    var drawerPanel = document.querySelector('#paperDrawerPanel');
+    var drawerPanel = this.$.paperDrawerPanel; //document.querySelector('#paperDrawerPanel');
     if (drawerPanel.narrow) {
       drawerPanel.closeDrawer();
     }

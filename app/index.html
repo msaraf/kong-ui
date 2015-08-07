@@ -57,7 +57,7 @@ This code may only be used under the BSD style license found in the included fil
 
   <paper-drawer-panel id="paperDrawerPanel">
     <!-- Drawer Scroll Header Panel -->
-    <paper-scroll-header-panel drawer fixed>
+    <paper-header-panel drawer fixed>
 
       <!-- Drawer Toolbar -->
       <paper-toolbar id="drawerToolbar">
@@ -65,7 +65,7 @@ This code may only be used under the BSD style license found in the included fil
       </paper-toolbar>
 
       <!-- Drawer Content -->
-      <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
+      <paper-menu id="drawerMenu" class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
         <a data-route="apis" href="#!/apis">
           <iron-icon icon="code"></iron-icon>
           <span>APIs</span>
@@ -81,7 +81,8 @@ This code may only be used under the BSD style license found in the included fil
           <span>Plugins</span>
         </a>
       </paper-menu>
-    </paper-scroll-header-panel>
+
+    </paper-header-panel>
 
     <!-- Main Area -->
     <!--<paper-scroll-header-panel main condenses keep-condensed-header>-->

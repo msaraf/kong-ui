@@ -18,8 +18,8 @@ This code may only be used under the BSD style license found in the included fil
   /* Application theme */
 
   :root {
-    --dark-primary-color: #042943;
-    --default-primary-color: #042943;
+    --dark-primary-color: #042943; /*#042943; */
+    --default-primary-color: #042943; /*#042943; */
     --light-primary-color: #b4bfd1;
     --text-primary-color: #ffffff; /*text/icons*/
     --accent-color: #5db6e6;
@@ -32,25 +32,47 @@ This code may only be used under the BSD style license found in the included fil
     /* Components */
 
     /* paper-drawer-panel */
-    --drawer-menu-color: #042943;
+    --drawer-menu-color: #042943; /*#042943; */
     --drawer-border-color: 1px solid #ccc;
     --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
 
     /* paper-menu */
     --paper-menu-background-color: #fff;
     --menu-link-color: #111111;
+
+    /* Shadow */
+    --box-shadow-color: #555;
+    --toolbar-box-shadow: 0px 7px 5px -5px var(--box-shadow-color);
+    --drawer-box-shadow: 6px 0px 5px -5px var(--box-shadow-color);
   }
 
   /* General styles */
 
-  #drawerToolbar {
-    color: var(--text-primary-color);
-    background-color: var(--drawer-menu-color);
-    border-bottom: var(--drawer-toolbar-border-color);
+  paper-toolbar {
+    box-shadow: var(--toolbar-box-shadow);
   }
 
-  paper-scroll-header-panel {
+  #drawerToolbar {
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    color: var(--text-primary-color);
+    background-color: var(--drawer-menu-color);
+    /*border-bottom: var(--drawer-toolbar-border-color);*/
+  }
+
+  #drawerMenu {
+    flex-grow: 1;
+    flex-shrink: 0;
+    box-shadow: var(--drawer-box-shadow);
+  }
+
+  paper-header-panel {
     height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
   }
 
   paper-material {

@@ -10,10 +10,6 @@ This code may only be used under the BSD style license found in the included fil
 
     page('/','/apis');
 
-//    page('/', function () {
-//      app.route = 'apis';
-//    });
-
     page('/apis', function () {
       app.route = 'apis';
     });
@@ -32,27 +28,31 @@ This code may only be used under the BSD style license found in the included fil
       app.params = data.params;
     });
 
-    page('/addConsumer', function(){
-      // Prep Data
+    page('/consumers', function() {
+      app.route = 'consumers';
+    });
+
+    page('/consumers/new', function(){
       app.consumer = null;
-
-      // Setup Toolbar
-      app.tbCrumbs = "Consumer / New";
-      app.tbActions = [
-        {id:"bAddConsumerCancel",title:"Cancel",icon:"close",action:app.$.editConsumer.cancel},
-        {id:"bAddConsumerSave",title:"Save",icon:"check",action:app.$.editConsumer.save}
-      ];
-
-      // Set Route
-      app.route = 'consumer';
+      app.route = 'consumer-edit';
       app.params = {};
     });
 
-    /* --- editConsumer --- */
     page('/consumer/:name', function (data) {
-      app.tbCrumbs = "Consumer / " + data.params.name;
-      app.route = 'consumer';
-      app.params = data.params;
+      app.route = 'consumer-edit';
+      app.params = {};
+    });
+
+    page('/plugins', function() {
+      app.route = 'plugins';
+    });
+
+    page('/apis/:name/plugins/:plugin', function() {
+      app.route = 'api-plugins';
+    });
+
+    page('/apis/:name/plugins/:plugin', function() {
+      app.route = 'api-plugins';
     });
 
     // add #! before urls
