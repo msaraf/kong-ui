@@ -105,32 +105,35 @@ This code may only be used under the BSD style license found in the included fil
 
             <iron-ajax id="ajaxAPI" last-response="{{apis}}" auto></iron-ajax>
 
-            <div class="list-view">
-              <paper-material class="list-view-card">
-                <h1>APIs</h1>
-                  <iron-list items="[[apis.data]]" as="item">
+            <div class="section-content">
+
+              <div class="list-view-card">
+                <div header>
+                  <h1>APIs</h1>
+                </div>
+                <div container>
+
+                  <iron-list items="[[apis.data]]" as="apiItem">
                     <template>
-
-                      <div class="list-item" id="[[item.id]]" on-tap="apiListClick">
-                        <span li-api-name>
-                          <span item-title>Name</span>
-                          <span item-value>{{item.name}}</span>
-                        </span>
-
-                        <span li-api-endpoint>
-                          <span item-title>Endpoint</span>
-                          <span item-value>
-                            <span>http://</span>
-                            <span>{{item.public_dns}}</span>
-                            <span>{{item.path}}</span>
-                          </span>
-                        </span>
+                      <div class="list-item" id="[[apiItem.id]]" on-tap="apiListClick">
+                        <paper-icon-button icon="code"></paper-icon-button>
+                        <div keys>
+                          <span primary>name</span>
+                          <span secondary>endpoint</span>
+                        </div>
+                        <div values>
+                          <span primary>{{apiItem.name}}</span>
+                          <span secondary><span>{{apiItem.public_dns}}</span><span>{{apiItem.path}}</span></span>
+                        </div>
                       </div>
-
                     </template>
                   </iron-list>
-              </paper-material>
+
+                </div>
+              </div>
             </div>
+
+
           </section>
 
           <!-- API New/Edit -->
@@ -151,19 +154,29 @@ This code may only be used under the BSD style license found in the included fil
 
             <iron-ajax id="ajaxConsumers" last-response="{{consumers}}" auto></iron-ajax>
 
-            <div class="list-view">
-              <div class="list-item-header">
-                <span>Consumers</span>
-              </div>
+            <div class="section-content">
+              <div class="list-view-card">
+                <div header>
+                  <h1>Consumers</h1>
+                </div>
 
-              <iron-list items="[[consumers.data]]" as="item">
-                <template>
-                  <div class="list-item">
-                    <div>Name: <span>{{item.username}}</span></div>
-                    <!--<div>Endpoint: <span>{{item.public_dns}}</span><span>{{item.path}}</span></div>-->
-                  </div>
-                </template>
-              </iron-list>
+                <div container>
+                  <iron-list items="[[consumers.data]]" as="consumerItem">
+                    <template>
+                      <div class="list-item" id="[[consumerItem.id]]" on-tap="consumerListClick">
+                        <paper-icon-button icon="social:person-outline"></paper-icon-button>
+                        <div keys>
+                          <span primary>username</span>
+                        </div>
+                        <div values>
+                          <span primary>{{consumerItem.username}}</span>
+                        </div>
+                      </div>
+                    </template>
+                  </iron-list>
+                </div>
+
+              </div>
             </div>
           </section>
 
@@ -184,19 +197,29 @@ This code may only be used under the BSD style license found in the included fil
 
             <iron-ajax id="ajaxPlugins" last-response="{{plugins}}" auto></iron-ajax>
 
-            <div class="list-view">
-              <div class="list-item-header">
-                <span>Plugins</span>
-              </div>
+            <div class="section-content">
+              <div class="list-view-card">
+                <div header>
+                  <h1>Plugins</h1>
+                </div>
 
-              <iron-list items="[[plugins.enabled_plugins]]" as="item">
-                <template>
-                  <div class="list-item">
-                    <div><span>{{item}}</span></div>
-                    <!--<div>Endpoint: <span>{{item.public_dns}}</span><span>{{item.path}}</span></div>-->
-                  </div>
-                </template>
-              </iron-list>
+                <div container>
+                  <iron-list items="[[plugins.enabled_plugins]]" as="pluginItem">
+                    <template>
+                      <div class="list-item" id="[[pluginItem.id]]" on-tap="pluginListClick">
+                        <paper-icon-button icon="social:person-outline"></paper-icon-button>
+                        <div keys>
+                          <span primary>name</span>
+                        </div>
+                        <div values>
+                          <span primary>{{pluginItem}}</span>
+                        </div>
+                      </div>
+                    </template>
+                  </iron-list>
+                </div>
+
+              </div>
             </div>
           </section>
 

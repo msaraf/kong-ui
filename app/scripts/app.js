@@ -19,8 +19,18 @@
   app.addConsumer = function(e) { page('/addConsumer'); };
 
   app.apiListClick = function(e) {
-    console.log("list item clicked: " + e.currentTarget.id);
+    console.log("api clicked: " + e.currentTarget.id);
     page("/apis/" + e.currentTarget.id);
+  };
+
+  app.consumerListClick = function(e) {
+    console.log("consumer clicked: " + e.currentTarget.id);
+    //page("/consumers/" + e.currentTarget.id);
+  };
+
+  app.pluginListClick = function(e) {
+    console.log("plugin clicked: " + e.currentTarget.id);
+    //page("/plugins/" + e.currentTarget.id);
   };
 
   window.addEventListener('WebComponentsReady', function() {
