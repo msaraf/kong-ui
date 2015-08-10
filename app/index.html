@@ -87,7 +87,7 @@ This code may only be used under the BSD style license found in the included fil
     <!-- Main Area -->
     <!--<paper-scroll-header-panel main condenses keep-condensed-header>-->
 
-    <paper-header-panel main class="flex">
+    <paper-header-panel main style="overflow-y: auto;">
 
       <!-- Main Content -->
       <div id="mainContent" class="content">
@@ -113,7 +113,7 @@ This code may only be used under the BSD style license found in the included fil
                 </div>
                 <div container>
 
-                  <iron-list items="[[apis.data]]" as="apiItem">
+                  <iron-list id="apiList" items="[[apis.data]]" as="apiItem">
                     <template>
                       <div class="list-item" id="[[apiItem.id]]" on-tap="apiListClick">
                         <paper-icon-button icon="code"></paper-icon-button>
@@ -161,7 +161,7 @@ This code may only be used under the BSD style license found in the included fil
                 </div>
 
                 <div container>
-                  <iron-list items="[[consumers.data]]" as="consumerItem">
+                  <iron-list id="consumerList" items="[[consumers.data]]" as="consumerItem">
                     <template>
                       <div class="list-item" id="[[consumerItem.id]]" on-tap="consumerListClick">
                         <paper-icon-button icon="social:person-outline"></paper-icon-button>
@@ -204,7 +204,7 @@ This code may only be used under the BSD style license found in the included fil
                 </div>
 
                 <div container>
-                  <iron-list items="[[plugins.enabled_plugins]]" as="pluginItem">
+                  <iron-list id="pluginList" items="{{plugins.enabled_plugins}}" as="pluginItem">
                     <template>
                       <div class="list-item" id="[[pluginItem.id]]" on-tap="pluginListClick">
                         <paper-icon-button icon="social:person-outline"></paper-icon-button>
