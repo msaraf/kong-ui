@@ -106,18 +106,30 @@ This code may only be used under the BSD style license found in the included fil
             <iron-ajax id="ajaxAPI" last-response="{{apis}}" auto></iron-ajax>
 
             <div class="list-view">
-              <div class="list-item-header">
-                <span>APIs</span>
-              </div>
+              <paper-material class="list-view-card">
+                <h1>APIs</h1>
+                  <iron-list items="[[apis.data]]" as="item">
+                    <template>
 
-              <iron-list items="[[apis.data]]" as="item">
-                <template>
-                  <div class="list-item">
-                      <div>Name: <span>{{item.name}}</span></div>
-                      <div>Endpoint: <span>{{item.public_dns}}</span><span>{{item.path}}</span></div>
-                  </div>
-                </template>
-              </iron-list>
+                      <div class="list-item" id="[[item.id]]" on-tap="apiListClick">
+                        <span li-api-name>
+                          <span item-title>Name</span>
+                          <span item-value>{{item.name}}</span>
+                        </span>
+
+                        <span li-api-endpoint>
+                          <span item-title>Endpoint</span>
+                          <span item-value>
+                            <span>http://</span>
+                            <span>{{item.public_dns}}</span>
+                            <span>{{item.path}}</span>
+                          </span>
+                        </span>
+                      </div>
+
+                    </template>
+                  </iron-list>
+              </paper-material>
             </div>
           </section>
 
