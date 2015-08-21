@@ -57,7 +57,7 @@ This code may only be used under the BSD style license found in the included fil
   <template>
     <paper-toolbar id="mainToolbar">
       <!-- topBar (default -->
-      <paper-icon-button id="apiPaperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+      <paper-icon-button id="apiPaperToggle" icon="menu" on-tap="{{paperDrawerToggle}}" paper-drawer-toggle></paper-icon-button>
       <span class="flex"></span>
       <content select="[icontray]"></content>
       <!-- middleBar -->
@@ -76,6 +76,10 @@ This code may only be used under the BSD style license found in the included fil
         is: 'kui-toolbar',
 
         properties: {
+        },
+
+        paperDrawerToggle: function() {
+          console.log("click");
         },
 
         ready: function() {

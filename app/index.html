@@ -54,42 +54,25 @@ This code may only be used under the BSD style license found in the included fil
 <body unresolved class="fullbleed layout vertical">
 <span id="browser-sync-binding"></span>
 <template is="dom-bind" id="app">
+  <paper-toast id="toast" duration="3000" style="z-index: 1000"></paper-toast>
 
   <paper-drawer-panel id="paperDrawerPanel">
-    <!-- Drawer Scroll Header Panel -->
-    <paper-header-panel drawer fixed>
 
-      <!-- Drawer Toolbar -->
+    <!-- Drawer -->
+    <paper-header-panel drawer fixed>
       <paper-toolbar id="drawerToolbar">
         <span class="paper-font-title">KONG UI</span>
       </paper-toolbar>
-
-      <!-- Drawer Content -->
-      <paper-menu id="drawerMenu" class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
-        <a data-route="apis" href="#!/apis">
-          <iron-icon icon="code"></iron-icon>
-          <span>APIs</span>
-        </a>
-
-        <a data-route="consumers" href="#!/consumers">
-          <iron-icon icon="social:people"></iron-icon>
-          <span>Consumers</span>
-        </a>
-
-        <a data-route="plugins" href="#!/plugins">
-          <iron-icon icon="extension"></iron-icon>
-          <span>Plugins</span>
-        </a>
-      </paper-menu>
-
+      <iron-selector id="drawerMenu" selected="0">
+        <a href="#!/apis" on-tap="routeChange"><iron-icon icon="code"></iron-icon><span>APIs</span></a>
+        <a href="#!/consumers" on-tap="routeChange"><iron-icon icon="social:people"></iron-icon><span>Consumers</span></a>
+        <a href="#!/plugins" on-tap="routeChange"><iron-icon icon="extension"></iron-icon><span>Plugins</span></a>
+      </iron-selector>
     </paper-header-panel>
 
     <!-- Main Area -->
-    <!--<paper-scroll-header-panel main condenses keep-condensed-header>-->
-
     <paper-header-panel main style="overflow-y: auto;">
 
-      <!-- Main Content -->
       <div id="mainContent" class="content">
         <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
@@ -115,7 +98,7 @@ This code may only be used under the BSD style license found in the included fil
 
                   <iron-list id="apiList" items="[[apis.data]]" as="apiItem">
                     <template>
-                      <div class="list-item" id="[[apiItem.id]]" on-tap="apiListClick">
+                      <div class="list-item" id="[[index]]" on-tap="apiListClick">
                         <paper-icon-button icon="code"></paper-icon-button>
                         <div keys>
                           <span primary>name</span>
@@ -132,13 +115,11 @@ This code may only be used under the BSD style license found in the included fil
                 </div>
               </div>
             </div>
-
-
           </section>
 
           <!-- API New/Edit -->
           <section data-route="api-edit">
-            <kui-api-edit id="kuiEditAPI"></kui-api-edit>
+            <kui-api-edit id="kuiEditAPI" item="{{selectedAPI}}"></kui-api-edit>
           </section>
 
           <!-- Consumer List View -->

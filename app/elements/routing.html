@@ -15,15 +15,12 @@ This code may only be used under the BSD style license found in the included fil
     });
 
     page('/apis/new', function(){
-      app.api = null;
-      app.$.kuiEditAPI.create(app);
+      app.selectedAPI = new app.APIModel();
       app.route = 'api-edit';
       app.params = {};
     });
 
     page('/apis/:name', function (data) {
-      app.api = data.params;
-      app.$.kuiEditAPI.edit(app, data.params.name);
       app.route = 'api-edit';
       app.params = data.params;
     });

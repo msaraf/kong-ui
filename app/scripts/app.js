@@ -10,17 +10,47 @@
   // Grab a reference to our auto-binding template
   var app = document.querySelector('#app');
 
-  // List View Data
+  /*-- Models --*/
+
+  app.APIModel = function() {
+    this.id = null;
+    this.name = "";
+    this.public_dns = "";
+    this.path = "";
+    this.strip_path = false;
+    this.target_url = "";
+    this.preserve_host = false;
+    this.created_at = "";
+  };
+
+  /*-- Common Data & State vars --*/
+
   app.apis;
+  app.selectedAPI = new app.APIModel();
+
   app.consumers;
   app.plugins;
 
   app.addAPI = function(e) { page('/apis/new'); };
   app.addConsumer = function(e) { page('/addConsumer'); };
 
+  /*-- on-tap methods --*/
+
+  app.routeChange = function(e) {
+    var route = e.currentTarget.href.replace(/.*#!/, "");
+    console.log("Drawer Menu Selected: " + route);
+    page(route);
+  };
+
   app.apiListClick = function(e) {
     console.log("api clicked: " + e.currentTarget.id);
-    page("/apis/" + e.currentTarget.id);
+    // Get Item Object
+    // Clear Editor Container
+    // Insert new editor container
+    // Load Item Object
+    // Display Page
+    this.selectedAPI = this.apis.data[e.currentTarget.id];
+    page("/apis/" + this.apis.data[e.currentTarget.id].name);
   };
 
   app.consumerListClick = function(e) {
@@ -33,6 +63,7 @@
     //page("/plugins/" + e.currentTarget.id);
   };
 
+  /*-- Event Listeners --*/
   window.addEventListener('WebComponentsReady', function() {
     // imports are loaded and elements have been registered
     app.$.ajaxAPI.url = app.settings.servers[0].address + "/apis";
@@ -40,7 +71,7 @@
     app.$.ajaxPlugins.url = app.settings.servers[0].address + "/plugins";
   });
 
-  /* ---- Internals Below --- */
+  /*-- Internals Below --*/
 
   app.displayInstalledToast = function() {
     document.querySelector('#caching-complete').show();
