@@ -1,0 +1,40 @@
+:host {
+  /*display: block;*/
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap; }
+
+kui-toolbar {
+  flex-grow: 0;
+  flex-shrink: 0; }
+
+paper-material {
+  background-color: #fff; }
+
+#form {
+  flex-grow: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: center;
+  background-color: #fff;
+  width: 90%;
+  margin-top: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px; }
+
+#form > * {
+  width: 100%; }
+
+@media (max-width: 600px) {
+  h1.paper-font-display1 {
+    font-size: 24px; } }
+
+/*# sourceMappingURL=view-api-edit.css.map */

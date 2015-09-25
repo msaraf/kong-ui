@@ -63,7 +63,7 @@ This code may only be used under the BSD style license found in the included fil
       <paper-toolbar id="drawerToolbar">
         <span class="paper-font-title">KONG UI</span>
       </paper-toolbar>
-      <iron-selector id="drawerMenu" selected="0">
+      <iron-selector id="drawerMenu" selected="{{drawerSelected}}">
         <a href="#!/apis" on-tap="routeChange"><iron-icon icon="code"></iron-icon><span>APIs</span></a>
         <a href="#!/consumers" on-tap="routeChange"><iron-icon icon="social:people"></iron-icon><span>Consumers</span></a>
         <a href="#!/plugins" on-tap="routeChange"><iron-icon icon="extension"></iron-icon><span>Plugins</span></a>
@@ -119,7 +119,7 @@ This code may only be used under the BSD style license found in the included fil
 
           <!-- API New/Edit -->
           <section data-route="api-edit">
-            <kui-api-edit id="kuiEditAPI" item="{{selectedAPI}}"></kui-api-edit>
+            <view-api-edit item="selectedItem"></view-api-edit>
           </section>
 
           <!-- Consumer List View -->
@@ -207,6 +207,10 @@ This code may only be used under the BSD style license found in the included fil
           <!-- API Plugin Config -->
           <section data-route="plugin">
             <h2>API Plugin Config</h2>
+          </section>
+
+          <!-- Scratch Area -->
+          <section id="scratch" data-route="scratch">
           </section>
 
         </iron-pages>

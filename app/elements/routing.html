@@ -11,14 +11,25 @@ This code may only be used under the BSD style license found in the included fil
     page('/','/apis');
 
     page('/apis', function () {
+      app.drawerSelected = 0;
       app.route = 'apis';
     });
 
     page('/apis/new', function(){
-      app.selectedAPI = new app.APIModel();
-      app.route = 'api-edit';
-      app.params = {};
+//      app.selectedAPI = new app.APIModel();
+//      app.route = 'api-edit';
+//      app.params = {};
+
+      app.$.scratch.innerHTML = "";
+      var node = document.createElement("view-api-edit");
+      app.$.scratch.appendChild(node);
+      app.route = 'scratch';
     });
+    page.exit('/apis/new', function(){
+      console.log("exit api create");
+      app.$.scratch.innerHTML = "";
+    });
+
 
     page('/apis/:name', function (data) {
       app.route = 'api-edit';
@@ -26,6 +37,7 @@ This code may only be used under the BSD style license found in the included fil
     });
 
     page('/consumers', function() {
+      app.drawerSelected = 1;
       app.route = 'consumers';
     });
 
@@ -41,6 +53,7 @@ This code may only be used under the BSD style license found in the included fil
     });
 
     page('/plugins', function() {
+      app.drawerSelected = 2;
       app.route = 'plugins';
     });
 

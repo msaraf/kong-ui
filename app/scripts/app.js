@@ -24,9 +24,9 @@
   };
 
   /*-- Common Data & State vars --*/
-
+  app.drawerSelected = 0;
   app.apis;
-  app.selectedAPI = new app.APIModel();
+  app.selectedAPI;
 
   app.consumers;
   app.plugins;
@@ -81,6 +81,9 @@
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
+
+
+
   });
 
   // Main area's paper-scroll-header-panel custom condensing transformation of

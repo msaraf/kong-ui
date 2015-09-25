@@ -1,0 +1,37 @@
+<!--
+@license
+Copyright (c) 2015 Mike Saraf. All rights reserved.
+This code may only be used under the BSD style license found in the included file LICENSE.md
+-->
+
+<dom-module id="view-api-edit">
+  <link rel="stylesheet" href="view-api-edit.css">
+
+  <template>
+    <paper-material>
+      What what:
+      <span>{{item.name}}</span>
+    </paper-material>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'view-api-edit',
+        properties: {
+          item: Object
+        },
+
+        foo: Object(),
+
+        /* --- Life Cycle --- */
+        ready: function() {
+          this.foo = {
+            first: "Test"
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
